@@ -3,7 +3,7 @@ import {Link as LinkR} from 'react-router-dom';
 import { Link as LinkS } from 'react-scroll';
 
 export const Nav = styled.nav`
-    background: transparent;
+    background: ${({scrollNav}) => (scrollNav ? '#000' : 'transparent')};
     height: 80px;
     margin-top: -80px;
     display: flex;
@@ -12,6 +12,7 @@ export const Nav = styled.nav`
     position: sticky;
     top: 0;
     z-index: 10;
+
     @media (max-width: 960px){
         transition: .8s all ease;
     }
@@ -49,7 +50,7 @@ export const MobileIcon = styled.div`
         transform: translate(-100%, 60%);
         font-size: 1.8rem;
         cursor: pointer;
-        // color: #fff;
+        color: #fff;
     }
 `
 
@@ -65,6 +66,12 @@ export const NavMenu = styled.div`
 
 export const NavItem = styled.li`
     height: 80px;
+    position: relative;
+    overflow: hidden;
+    margin: 0 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 `
 
 export const NavLinks = styled(LinkS)`
@@ -72,12 +79,36 @@ export const NavLinks = styled(LinkS)`
     display: flex;
     align-items: center;
     text-decoration: none;
-    padding: 0 1rem;
     height: 100%;
     cursor: pointer;
+    position: relative;
+    transition: .3s ease-in;
 
-    &.active{
-        border-bottom: 3px solid #01bf71;
+    &:before{
+        content: "";
+        width: 100%;
+        height: 3px;
+        background: #01BF71;
+        bottom: 0;
+        left: 0;
+        position: absolute;
+        transform: translateX(-50px);
+        opacity: 0;
+        transition: .3s ease-in;
+    }
+
+    &:hover{
+        color: #01BF71;
+        &:before{
+            opacity: 1;
+            transform: translateX(0px);
+        }
+        
+    }
+
+    &.active:before{
+        opacity: 1;
+        transform: translateX(0px);
     }
 `
 
@@ -101,7 +132,7 @@ export const NavBtnLink = styled(LinkR)`
     outline: none;
     border: none;
     cursor: point;
-    transition: all .2s ease-in-out;
+    transition: .3s ease-in-out;
     text-decoration: none;
 
     &:hover{
